@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+
+  <div style="display: flex; justify-content: space-between;">
+    <h1 class="mb-4">{{person.username}}'s Profile Page</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <p style="margin-right: 10px;">Followers: {{person.followers.count}} / Followings: {{person.followings.count}}</p> 
+      {% if person != request.user %}
+        <form action="{% url "accounts:follow" person.pk %}" method='POST'>
+          {% csrf_token %}
+          {% if request.user in person.followers.all %}
+            <button type="submit" class="btn btn-primary">UnFollow</button>
+          {% else %}
+            <button type="submit" class="btn btn-primary">Follow</button>
+          {% endif %}
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <div>
+    <p>회원번호 : {{person.pk}}</p>
+    <p>유저이름 : {{person.username}}</p>
+    <p>가입날짜 : {{person.date_joined}}</p>
+  </div>
+
+  <hr>
+  <br>
+
+  <h2 class="mb-4">Posts</h2><br>
+    {% if person.board_set.all|length == 0 %} No posts yet.
+    {% else %}
+      {% for board in person.board_set.all %}
+        <nav class="navbar navbar-expand-lg bg-light">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <p class="nav-link">글번호 : {{board.pk}}</p>
+                  <p class="nav-link">글제목 : <a href="{% url 'boards:detail' board.id %}" style="text-decoration: none;">{{ board.title }}</a></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <br>
+      {% endfor %}
+    {% endif %}
+    
+  <hr>
+  <br>
+
+  <h2 class="mb-4">Comments</h2><br>
+    {% if person.comment_set.all|length == 0 %} No comments yet.
+    {% else %}
+      {% for comment in person.comment_set.all %}
+        <nav class="navbar navbar-expand-lg bg-light">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <p class="nav-link">글제목 : <a href="{% url 'boards:detail' comment.board.id %}" style="text-decoration: none;">{{ comment.board.title}}</a></p>
+                  <p class="nav-link">댓글 : {{ comment.content }}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <br>
+      {% endfor %}
+    {% endif %}
+    
+  <hr>
+  <br>
+
+  <h2 class="mb-4">Followers</h2><br>
+    {% if person.followers.all|length == 0 %} No followers yet.
+    {% else %}
+      {% for follower in person.followers.all %}
+        <nav class="navbar navbar-expand-lg bg-light">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <p><a href="{% url "accounts:profile" follower.username %}" style="text-decoration: none;">{{follower.username}}</a></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      {% endfor %}
+    {% endif %}
+
+</div>
+{% endblock content %}

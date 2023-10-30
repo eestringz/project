@@ -1,0 +1,79 @@
+* {
+    font-family: 'Imbue', serif;
+    font-family: 'Roboto', sans-serif;
+}
+
+.frontpage {
+    height:400px;
+    background-color: lightgray;
+}
+
+.intro {
+    height: 400px;
+}
+
+.skills {
+    height: 400px;
+    background: lightgray;
+}
+
+.project {
+    height: 500px;
+}
+
+.contact {
+    height: 300px;
+    background-color: lightgray;
+}
+
+.footer {
+    height: 30px;
+    background-color: black;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 1. not-provided 클래스를 기본적으로 보이지 않도록 설정 */
+.not-provided {
+    display: none;
+}
+
+/* 2. 470px 미만이면, not-provided 만 보이도록 설정 */
+@media (max-width: 470px) {
+    main,
+    section,
+    nav,
+    footer {
+        display: none;
+    }
+    .not-provided {
+        display: block;
+    }
+}
+
+
+
+
+.social-icons .social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5rem;
+    width: 3.5rem;
+    background-color: #495057;
+    color: #fff;
+    border-radius: 100%;
+    font-size: 1.5rem;
+    margin-right: 1.5rem;
+  }
+  .social-icons .social-icon:last-child {
+    margin-right: 0;
+  }
+  .social-icons .social-icon:hover {
+    background-color: #bd5d38;
+  }
